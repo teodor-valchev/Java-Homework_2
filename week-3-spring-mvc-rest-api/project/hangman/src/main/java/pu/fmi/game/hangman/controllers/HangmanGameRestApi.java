@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import pu.fmi.game.hangman.model.entity.HangmanGame;
 import pu.fmi.game.hangman.model.service.HangmanGameService;
@@ -34,6 +35,13 @@ public class HangmanGameRestApi {
   ){
     return hangmanGameService.makeGuess(id, guessLetter);
   }
+
+  @GetMapping("")
+  public List<HangmanGame> getHangmanGames(
+     @RequestParam(required = false, defaultValue = "" + HangmanGameService.DEFAULT_PAGE_OFFSET) int offset,
+     @RequestParam(required = false, defaultValue = "" + HangmanGameService.DEFAULT_PAGE_SIZE) int size) {
+        return hangmanGameService.getAllGames(offset, size);
+     }
 
   // GET /hangman-games/{id}
   @GetMapping("/{id}")

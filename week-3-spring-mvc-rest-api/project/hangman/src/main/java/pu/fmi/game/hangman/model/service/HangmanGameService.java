@@ -15,6 +15,10 @@ import pu.fmi.game.hangman.model.wordprovider.GenericWordProvider;
 @Service
 public class HangmanGameService {
 
+  public static final int DEFAULT_PAGE_OFFSET = 0;
+  public static final int DEFAULT_PAGE_SIZE = 10;
+  public static final int MAX_PAGE_SIZE = 20;
+
   private static final int INITIAL_WRONG_GUESSES = 0;
   private static final String PLACEHOLDER_SYMBOL = "_";
 
@@ -124,6 +128,23 @@ public class HangmanGameService {
     }
     return null;
   }
+
+  public List<HangmanGame> getAllGames(int offset, int size) {
+        if (offset < 0) {
+            offset = DEFAULT_PAGE_OFFSET;
+          }
+        if (size <= 0) {
+           size = DEFAULT_PAGE_SIZE;
+          }
+        if (size > MAX_PAGE_SIZE) {
+            size = MAX_PAGE_SIZE;
+          }
+
+        int startIndex = Math.min(offset, storedGamesCollection.size());
+        int endIndex = Math.min(offset + size, storedGamesCollection.size());
+
+                return new ArrayList<>(storedGamesCollection.subList(startIndex, endIndex));
+      }
 
   @PreDestroy
   public void destroy(){
