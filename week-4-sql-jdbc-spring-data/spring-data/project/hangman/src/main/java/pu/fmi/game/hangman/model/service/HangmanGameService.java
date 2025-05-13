@@ -92,7 +92,7 @@ public class HangmanGameService implements GameService {
 
   @Override
   public List<HangmanGame> getAllGames(){
-    return this.gameRepository.findAll();
+    return this.gameRepository.findTop10ByOrderByStartedOnDateDesc();
   }
 
   @Override
